@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,91 +8,139 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         primary: '#3b82f6',
                         secondary: '#10b981',
                         dark: '#1e293b',
+                        // Dark mode colors
+                        'dark-navy': '#1e2533',
+                        'dark-surface': '#252e3f',
+                        'dark-border': '#374151',
+                        'dark-accent': '#6366f1',
+                        'dark-button': '#6366f1',
+                        'dark-text': '#e2e8f0',
+                        'dark-text-secondary': '#94a3b8'
                     }
                 }
             }
         }
     </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .dark .dark-card {
+                @apply bg-dark-surface border-dark-border text-dark-text;
+            }
+            .dark .dark-input {
+                @apply bg-dark-navy border-dark-border text-dark-text placeholder-dark-text-secondary;
+            }
+            .dark .dark-button-primary {
+                @apply bg-dark-button text-white hover:bg-indigo-600;
+            }
+            .dark .dark-button-secondary {
+                @apply bg-dark-border text-dark-text hover:bg-gray-700;
+            }
+            .dark .dark-text-primary {
+                @apply text-dark-text;
+            }
+            .dark .dark-text-secondary {
+                @apply text-dark-text-secondary;
+            }
+            .dark .dark-bg-primary {
+                @apply bg-dark-navy;
+            }
+            .dark .dark-bg-secondary {
+                @apply bg-dark-surface;
+            }
+            .dark .dark-border {
+                @apply border-dark-border;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 dark:bg-dark-navy min-h-screen transition-colors duration-200">
     <div class="container mx-auto px-4 py-8">
-        <!-- Header Section -->
-        <header class="mb-10">
-            <h1 class="text-3xl font-bold text-dark mb-2">User Dashboard</h1>
-            <p class="text-gray-600">Manage and view all user data</p>
+        <!-- Header Section with Dark Mode Toggle -->
+        <header class="mb-10 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-dark dark:text-dark-text mb-2">User Dashboard</h1>
+                <p class="text-gray-600 dark:text-dark-text-secondary">Manage and view all user data</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="p-2 rounded-full bg-gray-200 dark:bg-dark-surface">
+                    <!-- Sun icon for light mode -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <!-- Moon icon for dark mode -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-300 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                
+                <!-- Add Student Button -->
+                <button id="openAddStudentModal" class="px-4 py-2 bg-primary dark:bg-dark-button text-white rounded-md hover:bg-blue-600 dark:hover:bg-indigo-600 transition-colors flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Add Student
+                </button>
+            </div>
         </header>
 
         <!-- Search and Filter Section -->
         <div class="mb-6">
             <div class="relative">
                 <input type="text" id="searchInput" placeholder="Search users..." 
-                    class="w-full md:w-1/3 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    class="w-full md:w-1/3 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="h-5 w-5 text-gray-400 dark:text-dark-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
             </div>
         </div>
 
-
-        <!-- Add Student Button -->
-        <div class="flex justify-between items-center mb-6">
-          <div>
-            <h1 class="text-3xl font-bold text-dark mb-2">User Dashboard</h1>
-            <p class="text-gray-600">Manage and view all user data</p>
-          </div>
-          <button id="openAddStudentModal" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition-colors flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-            </svg>
-            Add Student
-          </button>
-        </div>
-
         <!-- Stats Overview -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-primary">
-                <h3 class="text-gray-500 text-sm font-medium">Total Users</h3>
-                <p class="text-2xl font-bold text-dark mt-2" id="totalUsers">0</p>
+            <div class="bg-white dark:dark-card rounded-lg shadow p-6 border-l-4 border-primary dark:border-dark-accent">
+                <h3 class="text-gray-500 dark:text-dark-text-secondary text-sm font-medium">Total Users</h3>
+                <p class="text-2xl font-bold text-dark dark:text-dark-text mt-2" id="totalUsers">0</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-secondary">
-                <h3 class="text-gray-500 text-sm font-medium">Male Users</h3>
-                <p class="text-2xl font-bold text-dark mt-2" id="maleUsers">0</p>
+            <div class="bg-white dark:dark-card rounded-lg shadow p-6 border-l-4 border-secondary dark:border-green-500">
+                <h3 class="text-gray-500 dark:text-dark-text-secondary text-sm font-medium">Male Users</h3>
+                <p class="text-2xl font-bold text-dark dark:text-dark-text mt-2" id="maleUsers">0</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
-                <h3 class="text-gray-500 text-sm font-medium">Female Users</h3>
-                <p class="text-2xl font-bold text-dark mt-2" id="femaleUsers">0</p>
+            <div class="bg-white dark:dark-card rounded-lg shadow p-6 border-l-4 border-purple-500">
+                <h3 class="text-gray-500 dark:text-dark-text-secondary text-sm font-medium">Female Users</h3>
+                <p class="text-2xl font-bold text-dark dark:text-dark-text mt-2" id="femaleUsers">0</p>
             </div>
         </div>
 
         <!-- User Data Table -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-medium text-dark">User List</h2>
+        <div class="bg-white dark:dark-card rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-dark-border bg-gray-50 dark:bg-dark-surface">
+                <h2 class="text-lg font-medium text-dark dark:text-dark-text">User List</h2>
             </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
+                    <thead class="bg-gray-50 dark:bg-dark-surface">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">ID</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Gender</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
+                    <tbody id="userTableBody" class="bg-white dark:bg-dark-surface divide-y divide-gray-200 dark:divide-dark-border">
                         <!-- User data will be inserted here -->
                     </tbody>
                 </table>
             </div>
-            <div id="noResults" class="hidden p-8 text-center text-gray-500">
+            <div id="noResults" class="hidden p-8 text-center text-gray-500 dark:text-dark-text-secondary">
                 No users found matching your search.
             </div>
         </div>
@@ -105,12 +153,12 @@
 
     <!-- Add Student Modal -->
     <div id="addStudentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
+        <div class="bg-white dark:dark-card rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
             <!-- Modal Header -->
-            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+            <div class="bg-gray-50 dark:bg-dark-surface px-6 py-4 border-b border-gray-200 dark:border-dark-border">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-dark">Add New Student</h3>
-                    <button id="closeAddStudentModal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <h3 class="text-lg font-medium text-dark dark:text-dark-text">Add New Student</h3>
+                    <button id="closeAddStudentModal" class="text-gray-400 dark:text-dark-text-secondary hover:text-gray-500 dark:hover:text-dark-text focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -119,21 +167,21 @@
             </div>
             
             <!-- Modal Body -->
-            <div class="px-6 py-4">
+            <div class="px-6 py-4 dark:bg-dark-surface">
                 <form id="addStudentForm" class="space-y-4">
                     <!-- Name Field -->
                     <div>
-                        <label for="studentName" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">Name</label>
                         <input type="text" id="studentName" name="name" required
-                            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
                         <p id="nameError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid name</p>
                     </div>
                     
                     <!-- Gender Field -->
                     <div>
-                        <label for="studentGender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <label for="studentGender" class="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">Gender</label>
                         <select id="studentGender" name="gender" required
-                            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
                             <option value="" disabled selected>Select gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -144,11 +192,11 @@
                     
                     <!-- Password Field -->
                     <div>
-                        <label for="studentPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <label for="studentPassword" class="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">Password</label>
                         <div class="relative">
                             <input type="password" id="studentPassword" name="password" required
-                                class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500">
+                                class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
+                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-dark-text-secondary hover:text-gray-500 dark:hover:text-dark-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" id="eyeIcon">
                                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
@@ -161,18 +209,162 @@
             </div>
             
             <!-- Modal Footer -->
-            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
-                <button id="cancelAddStudent" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
+            <div class="bg-gray-50 dark:bg-dark-surface px-6 py-4 border-t border-gray-200 dark:border-dark-border flex justify-end space-x-3">
+                <button id="cancelAddStudent" class="px-4 py-2 bg-gray-200 dark:dark-button-secondary text-gray-800 dark:text-dark-text rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
                     Cancel
                 </button>
-                <button id="submitAddStudent" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition-colors">
+                <button id="submitAddStudent" class="px-4 py-2 bg-primary dark:dark-button-primary text-white rounded-md hover:bg-blue-600 dark:hover:bg-indigo-600 transition-colors">
                     Add Student
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Update Student Modal -->
+    <div id="updateStudentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:dark-card rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-gray-50 dark:bg-dark-surface px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-medium text-dark dark:text-dark-text">Update Student</h3>
+                    <button id="closeUpdateStudentModal" class="text-gray-400 dark:text-dark-text-secondary hover:text-gray-500 dark:hover:text-dark-text focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="px-6 py-4 dark:bg-dark-surface">
+                <form id="updateStudentForm" class="space-y-4">
+                    <!-- Hidden ID Field -->
+                    <input type="hidden" id="updateStudentId">
+                    
+                    <!-- Name Field -->
+                    <div>
+                        <label for="updateStudentName" class="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">Name</label>
+                        <input type="text" id="updateStudentName" name="name" required
+                            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
+                        <p id="updateNameError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid name</p>
+                    </div>
+                    
+                    <!-- Gender Field -->
+                    <div>
+                        <label for="updateStudentGender" class="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">Gender</label>
+                        <select id="updateStudentGender" name="gender" required
+                            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
+                            <option value="" disabled>Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <p id="updateGenderError" class="text-red-500 text-xs mt-1 hidden">Please select a gender</p>
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div>
+                        <label for="updateStudentPassword" class="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="updateStudentPassword" name="password" required
+                                class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:dark-input">
+                            <button type="button" id="toggleUpdatePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-dark-text-secondary hover:text-gray-500 dark:hover:text-dark-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" id="updateEyeIcon">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p id="updatePasswordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6 characters</p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 dark:bg-dark-surface px-6 py-4 border-t border-gray-200 dark:border-dark-border flex justify-end space-x-3">
+                <button id="cancelUpdateStudent" class="px-4 py-2 bg-gray-200 dark:dark-button-secondary text-gray-800 dark:text-dark-text rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                    Cancel
+                </button>
+                <button id="submitUpdateStudent" class="px-4 py-2 bg-primary dark:dark-button-primary text-white rounded-md hover:bg-blue-600 dark:hover:bg-indigo-600 transition-colors">
+                    Update Student
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+<div id="deleteConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:dark-card rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
+        <!-- Modal Header -->
+        <div class="bg-gray-50 dark:bg-dark-surface px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-medium text-dark dark:text-dark-text">Confirm Delete</h3>
+                <button id="closeDeleteModal" class="text-gray-400 dark:text-dark-text-secondary hover:text-gray-500 dark:hover:text-dark-text focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal Body -->
+        <div class="px-6 py-4 dark:bg-dark-surface">
+            <input type="hidden" id="deleteStudentId">
+            <div class="flex items-center mb-4">
+                <div class="flex-shrink-0 bg-red-100 dark:bg-red-900 rounded-full p-2">
+                    <svg class="h-6 w-6 text-red-600 dark:text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h4 class="text-lg font-medium text-gray-900 dark:text-dark-text">Delete Student</h4>
+                    <p class="text-sm text-gray-500 dark:text-dark-text-secondary">Are you sure you want to delete this student? This action cannot be undone.</p>
+                </div>
+            </div>
+            <div class="bg-gray-50 dark:bg-dark-navy p-4 rounded-md mb-4">
+                <p class="text-sm text-gray-700 dark:text-dark-text-secondary">Student: <span id="deleteStudentName" class="font-medium text-gray-900 dark:text-dark-text"></span></p>
+            </div>
+        </div>
+        
+        <!-- Modal Footer -->
+        <div class="bg-gray-50 dark:bg-dark-surface px-6 py-4 border-t border-gray-200 dark:border-dark-border flex justify-end space-x-3">
+            <button id="cancelDelete" class="px-4 py-2 bg-gray-200 dark:dark-button-secondary text-gray-800 dark:text-dark-text rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                Cancel
+            </button>
+            <button id="confirmDelete" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>
+
     <script>
+// Dark mode toggle functionality
+function setupDarkMode() {
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const html = document.documentElement;
+  
+  // Check for saved theme preference or use system preference
+  const savedTheme = localStorage.getItem('theme');
+  
+  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    html.classList.add('dark');
+  } else {
+    html.classList.remove('dark');
+  }
+  
+  // Toggle dark mode on button click
+  darkModeToggle.addEventListener('click', function() {
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+}
+
 // Show loading state
 function showLoading() {
   const tableBody = document.getElementById('userTableBody');
@@ -187,24 +379,24 @@ function showLoading() {
     <tr>
       <td colspan="4" class="px-6 py-4 text-center">
         <div class="flex justify-center items-center">
-          <svg class="animate-spin h-5 w-5 text-primary mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <svg class="animate-spin h-5 w-5 text-primary dark:text-dark-accent mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <span>Loading data...</span>
+          <span class="dark:text-dark-text">Loading data...</span>
         </div>
       </td>
     </tr>
   `;
   
   userCards.innerHTML = `
-    <div class="bg-white rounded-lg shadow p-4 w-full">
+    <div class="bg-white dark:dark-card rounded-lg shadow p-4 w-full">
       <div class="flex justify-center items-center py-4">
-        <svg class="animate-spin h-5 w-5 text-primary mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg class="animate-spin h-5 w-5 text-primary dark:text-dark-accent mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <span>Loading data...</span>
+        <span class="dark:text-dark-text">Loading data...</span>
       </div>
     </div>
   `;
@@ -228,7 +420,7 @@ function showError(error) {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
           <span>Error loading data: ${error.message}</span>
-          <button id="retryButton" class="mt-3 px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition-colors">
+          <button id="retryButton" class="mt-3 px-4 py-2 bg-primary dark:bg-dark-button text-white rounded-md hover:bg-blue-600 dark:hover:bg-indigo-600 transition-colors">
             Retry
           </button>
         </div>
@@ -237,13 +429,13 @@ function showError(error) {
   `;
   
   userCards.innerHTML = `
-    <div class="bg-white rounded-lg shadow p-4 w-full">
+    <div class="bg-white dark:dark-card rounded-lg shadow p-4 w-full">
       <div class="flex flex-col justify-center items-center py-4 text-red-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
         <span>Error loading data: ${error.message}</span>
-        <button id="retryButtonMobile" class="mt-3 px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition-colors">
+        <button id="retryButtonMobile" class="mt-3 px-4 py-2 bg-primary dark:bg-dark-button text-white rounded-md hover:bg-blue-600 dark:hover:bg-indigo-600 transition-colors">
           Retry
         </button>
       </div>
@@ -285,37 +477,45 @@ function renderUsers(users) {
   users.forEach(user => {
     // Create table row for desktop view
     const row = document.createElement('tr');
-    row.className = 'hover:bg-gray-50 transition-colors';
+    row.className = 'hover:bg-gray-50 dark:hover:bg-dark-navy transition-colors';
     row.innerHTML = `
-      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${user.id}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.name}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.gender.toLowerCase().includes('female') ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}">
+      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-dark-text">${user.id}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-text-secondary">${user.name}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-text-secondary">
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+          user.gender.toLowerCase().includes('female') 
+            ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' 
+            : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+        }">
           ${user.gender}
         </span>
       </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <button class="text-primary hover:text-primary-dark mr-3" onclick="editUser(${user.id})">Edit</button>
-        <button class="text-red-500 hover:text-red-700" onclick="deleteUser(${user.id})">Delete</button>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-text-secondary">
+        <button class="text-primary dark:text-dark-accent hover:text-blue-700 dark:hover:text-indigo-400 mr-3" onclick="openUpdateModal(${user.id})">Edit</button>
+        <button class="text-red-500 hover:text-red-700 dark:hover:text-red-400" onclick="deleteUser(${user.id})">Delete</button>
       </td>
     `;
     tableBody.appendChild(row);
     
     // Create card for mobile view
     const card = document.createElement('div');
-    card.className = 'bg-white rounded-lg shadow p-4';
+    card.className = 'bg-white dark:dark-card rounded-lg shadow p-4';
     card.innerHTML = `
       <div class="flex justify-between items-start">
         <div>
-          <h3 class="text-lg font-medium text-gray-900">${user.name}</h3>
-          <p class="text-sm text-gray-500">ID: ${user.id}</p>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-dark-text">${user.name}</h3>
+          <p class="text-sm text-gray-500 dark:text-dark-text-secondary">ID: ${user.id}</p>
         </div>
-        <span class="px-2 py-1 text-xs font-semibold rounded-full ${user.gender.toLowerCase().includes('female') ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}">
+        <span class="px-2 py-1 text-xs font-semibold rounded-full ${
+          user.gender.toLowerCase().includes('female') 
+            ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' 
+            : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+        }">
           ${user.gender}
         </span>
       </div>
       <div class="mt-4 flex justify-end space-x-3">
-        <button class="px-3 py-1 text-sm text-primary border border-primary rounded hover:bg-primary hover:text-white transition-colors" onclick="editUser(${user.id})">Edit</button>
+        <button class="px-3 py-1 text-sm text-primary dark:text-dark-accent border border-primary dark:border-dark-accent rounded hover:bg-primary hover:text-white dark:hover:bg-dark-accent transition-colors" onclick="openUpdateModal(${user.id})">Edit</button>
         <button class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition-colors" onclick="deleteUser(${user.id})">Delete</button>
       </div>
     `;
@@ -323,15 +523,65 @@ function renderUsers(users) {
   });
 }
 
+// Function to open update modal
+function openUpdateModal(id) {
+  const user = apiResponse.payloads.find(user => user.id === id);
+  if (!user) {
+    console.error('User not found with ID:', id);
+    return;
+  }
+  
+  // Populate the update modal with user data
+  document.getElementById('updateStudentId').value = user.id;
+  document.getElementById('updateStudentName').value = user.name;
+  document.getElementById('updateStudentGender').value = user.gender;
+  document.getElementById('updateStudentPassword').value = ''; // Clear password field
+  
+  // Show the update modal
+  document.getElementById('updateStudentModal').classList.remove('hidden');
+}
+
 // Placeholder functions for edit and delete (you can implement these later)
 function editUser(id) {
   console.log(`Edit user with ID: ${id}`);
-  // Implement edit functionality
+  
+  // Find the user in the API response
+  const user = apiResponse.payloads.find(user => user.id === id);
+  
+  if (!user) {
+    showNotification('User not found', 'error');
+    return;
+  }
+  
+  // Set form values
+  document.getElementById('updateStudentId').value = user.id;
+  document.getElementById('updateStudentName').value = user.name;
+  document.getElementById('updateStudentGender').value = user.gender;
+  document.getElementById('updateStudentPassword').value = user.password || '';
+  
+  // Hide any previous error messages
+  document.getElementById('updateNameError').classList.add('hidden');
+  document.getElementById('updateGenderError').classList.add('hidden');
+  document.getElementById('updatePasswordError').classList.add('hidden');
+  
+  // Show the modal
+  document.getElementById('updateStudentModal').classList.remove('hidden');
 }
 
+// Function to open delete confirmation modal
 function deleteUser(id) {
-  console.log(`Delete user with ID: ${id}`);
-  // Implement delete functionality
+  const user = apiResponse.payloads.find(user => user.id === id);
+  if (!user) {
+    console.error('User not found with ID:', id);
+    return;
+  }
+  
+  // Set the student ID and name in the delete confirmation modal
+  document.getElementById('deleteStudentId').value = user.id;
+  document.getElementById('deleteStudentName').textContent = user.name;
+  
+  // Show the delete confirmation modal
+  document.getElementById('deleteConfirmModal').classList.remove('hidden');
 }
 
 // Global variable to store API response
@@ -548,6 +798,228 @@ function setupModal() {
       submitBtn.innerHTML = 'Add Student';
     }
   });
+  
+  // Update Modal functionality
+  const updateModal = document.getElementById('updateStudentModal');
+  const closeUpdateModalBtn = document.getElementById('closeUpdateStudentModal');
+  const cancelUpdateBtn = document.getElementById('cancelUpdateStudent');
+  const submitUpdateBtn = document.getElementById('submitUpdateStudent');
+  const updateForm = document.getElementById('updateStudentForm');
+  
+  // Toggle password visibility for update form
+  const toggleUpdatePasswordBtn = document.getElementById('toggleUpdatePassword');
+  const updatePasswordInput = document.getElementById('updateStudentPassword');
+  const updateEyeIcon = document.getElementById('updateEyeIcon');
+  
+  // Form fields for update
+  const updateNameInput = document.getElementById('updateStudentName');
+  const updateGenderInput = document.getElementById('updateStudentGender');
+  const updateIdInput = document.getElementById('updateStudentId');
+  
+  // Error messages for update
+  const updateNameError = document.getElementById('updateNameError');
+  const updateGenderError = document.getElementById('updateGenderError');
+  const updatePasswordError = document.getElementById('updatePasswordError');
+  
+  // Close update modal functions
+  function closeUpdateModal() {
+    updateModal.classList.add('hidden');
+  }
+  
+  closeUpdateModalBtn.addEventListener('click', closeUpdateModal);
+  cancelUpdateBtn.addEventListener('click', closeUpdateModal);
+  
+  // Close update modal when clicking outside
+  updateModal.addEventListener('click', function(e) {
+    if (e.target === updateModal) {
+      closeUpdateModal();
+    }
+  });
+  
+  // Toggle password visibility for update form
+  toggleUpdatePasswordBtn.addEventListener('click', function() {
+    const type = updatePasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    updatePasswordInput.setAttribute('type', type);
+    
+    // Toggle eye icon
+    if (type === 'text') {
+      updateEyeIcon.innerHTML = `
+        <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 4 0 00-5.478-5.478z" clip-rule="evenodd" />
+        <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
+      `;
+    } else {
+      updateEyeIcon.innerHTML = `
+        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+      `;
+    }
+  });
+  
+  // Hide all error messages for update form
+  function hideAllUpdateErrors() {
+    updateNameError.classList.add('hidden');
+    updateGenderError.classList.add('hidden');
+    updatePasswordError.classList.add('hidden');
+  }
+  
+  // Validate update form
+  function validateUpdateForm() {
+    let isValid = true;
+    hideAllUpdateErrors();
+    
+    // Validate name
+    if (!updateNameInput.value.trim()) {
+      updateNameError.textContent = 'Please enter a name';
+      updateNameError.classList.remove('hidden');
+      isValid = false;
+    }
+    
+    // Validate gender
+    if (!updateGenderInput.value) {
+      updateGenderError.textContent = 'Please select a gender';
+      updateGenderError.classList.remove('hidden');
+      isValid = false;
+    }
+    
+    // Validate password
+    if (updatePasswordInput.value && updatePasswordInput.value.length < 6) {
+      updatePasswordError.textContent = 'Password must be at least 6 characters';
+      updatePasswordError.classList.remove('hidden');
+      isValid = false;
+    }
+    
+    return isValid;
+  }
+  
+  // Submit update form
+  submitUpdateBtn.addEventListener('click', async function() {
+    if (!validateUpdateForm()) {
+      return;
+    }
+    
+    const studentId = updateIdInput.value;
+    
+    // Create student object
+    const student = {
+      name: updateNameInput.value.trim(),
+      gender: updateGenderInput.value,
+      password: updatePasswordInput.value
+    };
+    
+    try {
+      // Show loading state
+      submitUpdateBtn.disabled = true;
+      submitUpdateBtn.innerHTML = `
+        <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Updating...
+      `;
+      
+      // Send data to API
+      const response = await fetch(`http://localhost:8080/student/${studentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(student)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('Student updated successfully:', result);
+      
+      // Close modal
+      closeUpdateModal();
+      
+      // Refresh the student list
+      fetchData();
+      
+      // Show success notification
+      showNotification('Student updated successfully!', 'success');
+      
+    } catch (error) {
+      console.error('Error updating student:', error);
+      showNotification(`Error updating student: ${error.message}`, 'error');
+    } finally {
+      // Reset button state
+      submitUpdateBtn.disabled = false;
+      submitUpdateBtn.innerHTML = 'Update Student';
+    }
+  });
+
+  // Delete Confirmation Modal functionality
+  const deleteModal = document.getElementById('deleteConfirmModal');
+  const closeDeleteModalBtn = document.getElementById('closeDeleteModal');
+  const cancelDeleteBtn = document.getElementById('cancelDelete');
+  const confirmDeleteBtn = document.getElementById('confirmDelete');
+  
+  // Close delete modal functions
+  function closeDeleteModal() {
+    deleteModal.classList.add('hidden');
+  }
+  
+  closeDeleteModalBtn.addEventListener('click', closeDeleteModal);
+  cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+  
+  // Close delete modal when clicking outside
+  deleteModal.addEventListener('click', function(e) {
+    if (e.target === deleteModal) {
+      closeDeleteModal();
+    }
+  });
+  
+  // Confirm delete
+  confirmDeleteBtn.addEventListener('click', async function() {
+    const studentId = document.getElementById('deleteStudentId').value;
+    
+    try {
+      // Show loading state
+      confirmDeleteBtn.disabled = true;
+      confirmDeleteBtn.innerHTML = `
+        <svg class="animate-spin h-5 w-5 mr-2 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Deleting...
+      `;
+      
+      // Send delete request to API
+      const response = await fetch(`http://localhost:8080/student/${studentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      
+      console.log('Student deleted successfully');
+      
+      // Close modal
+      closeDeleteModal();
+      
+      // Refresh the student list
+      fetchData();
+      
+      // Show success notification
+      showNotification('Student deleted successfully!', 'success');
+      
+    } catch (error) {
+      console.error('Error deleting student:', error);
+      showNotification(`Error deleting student: ${error.message}`, 'error');
+    } finally {
+      // Reset button state
+      confirmDeleteBtn.disabled = false;
+      confirmDeleteBtn.innerHTML = 'Delete';
+    }
+  });
 }
 
 // Show notification function
@@ -579,6 +1051,7 @@ function showNotification(message, type = 'success') {
 
 // Initialize the application when the DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+  setupDarkMode();
   fetchData();
   setupModal();
 });
